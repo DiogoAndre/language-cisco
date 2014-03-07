@@ -4,7 +4,7 @@ Adds syntax highlighting to Cisco configuration files in Atom.
 
 Currently focused in Cisco IOS configuration files.
 
-![screenshot](cisco.png)
+![screenshot](https://raw.github.com/DiogoAndre/language-cisco/master/cisco.png)
 
 ## Supported Filetypes
 
