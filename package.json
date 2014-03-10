@@ -1,6 +1,6 @@
 {
   "name": "language-cisco",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Cisco IOS support in Atom",
   "engines": {
     "atom": "*"
