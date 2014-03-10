@@ -221,8 +221,8 @@
     '1':
       'name': 'keyword.other.special-method.cisco'
     '2':
-      'name': 'string.cisco'
-  'match': '(ip route)\\s\\w*\\s\\w\\s\\w*\\s(.*)$'
+      'name': 'keyword.control.cisco'
+  'match': '(ip route)\\s([a-z]*)'
   'comment': 'ip route'
 }
 #auto converted from VIM script by Schroeder <has3@usa.net>
@@ -2557,7 +2557,7 @@
     'comment': 'certificate reload'
   }
   {
-    'match': 'ces'
+    'match': '(?:^|\\b)ces\\b'
     'name': 'keyword.control.cisco'
     'comment': 'ces'
   }
@@ -4565,11 +4565,6 @@
     'match': 'delete vfc'
     'name': 'keyword.control.cisco'
     'comment': 'delete vfc'
-  }
-  {
-    'match': 'deny'
-    'name': 'keyword.control.cisco'
-    'comment': 'deny'
   }
   {
     'match': 'destination-pattern'
@@ -10152,7 +10147,7 @@
     'comment': 'l2tp tunnel password'
   }
   {
-    'match': 'lan'
+    'match': '(?:^|\\b)lan\\w'
     'name': 'keyword.control.cisco'
     'comment': 'lan'
   }
@@ -12037,7 +12032,7 @@
     'comment': 'nasi authentication'
   }
   {
-    'match': 'nat'
+    'match': '(?:ˆ|\\b)nat(?:\\b|$)'
     'name': 'keyword.control.cisco'
     'comment': 'nat'
   }
@@ -12222,7 +12217,7 @@
     'comment': 'neighbor weight'
   }
   {
-    'match': 'net'
+    'match': '(?:^|\\b)net\\b'
     'name': 'keyword.control.cisco'
     'comment': 'net'
   }
@@ -12375,6 +12370,11 @@
     'match': 'next-server'
     'name': 'keyword.control.cisco'
     'comment': 'next-server'
+  }
+  {
+    'match': '(?:^|\\b)no\\b'
+    'name': 'string.other.link.cisco'
+    'comment': 'no ip inspect'
   }
   {
     'match': 'no ip inspect'
@@ -12697,12 +12697,12 @@
     'comment': 'pool-range'
   }
   {
-    'match': 'port'
+    'match': '(?:^|\\b)port\\b'
     'name': 'keyword.control.cisco'
     'comment': 'port'
   }
   {
-    'match': 'port'
+    'match': 'switchport'
     'name': 'keyword.control.cisco'
     'comment': 'port'
   }
@@ -13142,19 +13142,9 @@
     'comment': 'printer'
   }
   {
-    'match': 'priority'
+    'match': '(?:^|\\b)priority\\-?\\w*'
     'name': 'keyword.control.cisco'
     'comment': 'priority'
-  }
-  {
-    'match': 'priority-group'
-    'name': 'keyword.control.cisco'
-    'comment': 'priority-group'
-  }
-  {
-    'match': 'priority-list'
-    'name': 'keyword.control.cisco'
-    'comment': 'priority-list'
   }
   {
     'match': 'priority-list default'
@@ -19367,7 +19357,7 @@
     'comment': 'show xtagatm vc'
   }
   {
-    'match': 'shut'
+    'match': '(?:^|\\b)shut\\b'
     'name': 'keyword.control.cisco'
     'comment': 'shut'
   }
@@ -20497,7 +20487,7 @@
     'comment': 'synguard'
   }
   {
-    'match': 't1'
+    'match': '(?:^|\\b)t1\\b'
     'name': 'keyword.control.cisco'
     'comment': 't1'
   }
