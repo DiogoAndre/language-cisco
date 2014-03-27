@@ -128,6 +128,9 @@
     'include': '#subnet_mask'
   }
   {
+    'include': '#wildcard_mask'
+  }
+  {
     'include': '#crypto_ike'
   }
   {
@@ -702,6 +705,9 @@
             'include': '#ip_address'
           }
           {
+            'include': '#wildcard_mask'
+          }
+          {
             'include': '#disable'
           }
           {
@@ -723,6 +729,14 @@
         'match': '\\s255\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}'
         'name': 'string.regexp.cisco'
         'comment': 'most common subnet masks'
+      }
+    ]
+  'wildcard_mask':
+    'patterns': [
+      {
+        'match': '\\s0\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}[\/\\d{1,2}]*'
+        'name': 'string.regexp.cisco'
+        'comment': 'most common wildcard masks'
       }
     ]
   'ip_nat':
@@ -831,12 +845,13 @@
           '1':
             'name': 'keyword.negative.cisco'
           '2':
-            'name': 'constant.language.cisco'
+            'name': 'keyword.control.cisco'
         'end': '$'
         'patterns': [
           {
             'match': '\\s(trap|facility|host|event|link-status|buffered|console)(?=\\s)'
             'name': 'keyword.other.logging'
+            'comment': 'logging'
           }
         ]
       }
