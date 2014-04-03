@@ -167,6 +167,9 @@
     'include': '#line'
   }
   {
+    'include': '#ntp'
+  }
+  {
     'match': '^!.*$'
     'name': 'comment.line.bang.cisco'
     'comment': 'comments are usually made with a bang'
@@ -462,7 +465,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '(network|dns-server|default-router|option|ip)\\s'
+            'match': '(network|dns-server|default-router|option|ip|lease)\\s'
             'name': 'keyword.other.dhcp'
           }
           {
@@ -654,7 +657,7 @@
         'end': '^(!)'
         'patterns': [
           {
-            'match': '\\s(redirects|proxy-arp|channel-group|active|mls|qos|switchport|trunk|mode|vlan-id|bandwidth|ipv6|access-group|in|out|verify|unicast|source|destination|reachable-via|tx|rx|dead-interval|hello-interval|flow|policy|route-map|tunnel|tcp|adjust-mss|ingress|cost|allow-default|allow-self-ping|unreachables|lacp|fast-switchover|inside|outside|ip|vrf|forwarding|mtu|address|cdp|enable|encapsulation|speed|duplex|media-type|load-interval|nat|unnumbered|service-module|default-gateway|virtual-reassembly|crypto|map|service-policy|mpls|pim|ospf|rip|clns|negotiation|output|input|dsu|framing|cablelength|crc|clock|down-when-looped|peer|logging|event|trust|neighbor-route)(?=\\s)'
+            'match': '\\s(redirects|dce-terminal-timing-enable|mop|snmp|ppp|multilink|half-duplex|full-duplex|proxy-arp|channel-group|active|mls|qos|switchport|trunk|mode|vlan-id|bandwidth|ipv6|access-group|in|out|verify|unicast|source|destination|reachable-via|tx|rx|dead-interval|hello-interval|flow|policy|route-map|tunnel|tcp|rtp|adjust-mss|ingress|cost|allow-default|allow-self-ping|unreachables|lacp|fast-switchover|inside|outside|ip|vrf|forwarding|mtu|address|cdp|enable|encapsulation|speed|duplex|media-type|load-interval|nat|unnumbered|service-module|default-gateway|virtual-reassembly|crypto|map|service-policy|mpls|pim|ospf|rip|clns|negotiation|output|input|dsu|framing|cablelength|crc|clock|down-when-looped|peer|logging|event|trust|neighbor-route)(?=\\s)'
             'name': 'keyword.other.interface'
           }
           {
@@ -824,7 +827,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '(con|aux|vty|location|password|login|transport|input|output|privilege|level|access-class|exec|activation-character|stopbits|baud)\\s'
+            'match': '(con|aux|vty|location|exec-timeout|password|login|transport|input|output|privilege|level|access-class|exec|activation-character|stopbits|baud)\\s'
             'name': 'keyword.other.line'
           }
           {
@@ -929,6 +932,25 @@
         ]
       }
     ]
+  'ntp':
+    'patterns': [
+      {
+        'begin': '^(no )?(ntp)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'keyword.negative.cisco'
+          '2':
+            'name': 'constant.language.cisco'
+        'end': '$'
+        'patterns': [
+          {
+            'match': '\\s(clock-period|update-calendar|peer|server|master)(?=\\s)'
+            'name': 'keyword.other.logging'
+            'comment': 'time server'
+          }
+        ]
+      }
+    ]
   'prefix_list':
     'patterns': [
       {
@@ -987,7 +1009,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '(match(-any|-all)?|rate|bps|conform-action|exceed-action|transmit|drop|shape|average|service-policy|access-group|class|bandwidth|priority|percent|police|set|ip|dscp|fair-queue|random-detect|dscp-based)\\s'
+            'match': '(match(-any|-all)?|rate|bps|queue-limit|conform-action|exceed-action|transmit|drop|shape|average|service-policy|access-group|class|bandwidth|priority|percent|police|set|ip|dscp|fair-queue|random-detect|dscp-based)\\s'
             'name': 'keyword.other.qos'
           }
           {
@@ -1160,7 +1182,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(community|trap-source|chassis-id|enable|traps|host)(?=\\s)'
+            'match': '\\s(community|trap-source|chassis-id|ifindex|enable|traps|host)(?=\\s)'
             'name': 'keyword.other.snmp'
           }
           {
