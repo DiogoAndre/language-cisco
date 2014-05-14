@@ -167,6 +167,12 @@
     'include': '#line'
   }
   {
+    'include': '#monitor'
+  }
+  {
+    'include': '#ntp'
+  }
+  {
     'match': '^!.*$'
     'name': 'comment.line.bang.cisco'
     'comment': 'comments are usually made with a bang'
@@ -218,7 +224,7 @@
   'access_list':
     'patterns': [
       {
-        'begin': '^(access-list)(?=\\s)'
+        'begin': '(access-list)(?=\\s)'
         'beginCaptures':
           '1':
             'name': 'constant.language.cisco'
@@ -419,13 +425,13 @@
         'beginCaptures':
           '1':
             'name': 'constant.language.cisco'
-        'end': '^(!)'
+        'end': '(!|quit)'
         'endCaptures':
           '1':
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '\\s(certificate|trustpoint|chain|self(-)?signed|enrollment|revocation-check|rsakeypair|subject-name|quit)(?=\\s)'
+            'match': '\\s(certificate|trustpoint|chain|self(-)?signed|enrollment|revocation-check|rsakeypair|subject-name)(?=\\s)'
             'name': 'keyword.other.crypto'
           }
           {
@@ -462,7 +468,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '(network|dns-server|default-router|option|ip)\\s'
+            'match': '(network|dns-server|default-router|option|ip|lease)\\s'
             'name': 'keyword.other.dhcp'
           }
           {
@@ -594,8 +600,11 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(forward-protocol|bootp|lookup|multicast|hardware-switching|replication-mode|icmp|rate-limit|unreachable|authentication|timeout-policy|idle|life|local|pool|dhcp|excluded-address|use|connected|pim|rp-address|multicast-routing|source-route|vrf|cef|name-server|domain|name|telnet|source-interface|standard|extended|http|server|secure-server|route|subnet-zero|classless|route|global)(?=\\s)'
+            'match': '\\s(forward-protocol|as-path|source|destination|version|ftp|username|password|flow-export|default-gateway|tacacs|sla|enable|tcp|path-mtu-discovery|flow-cache|bootp|lookup|multicast|hardware-switching|replication-mode|icmp|rate-limit|unreachable|authentication|timeout-policy|idle|life|local|pool|dhcp|excluded-address|use|connected|pim|rp-address|multicast-routing|source-route|vrf|cef|name-server|domain|name|telnet|source-interface|standard|extended|http|server|secure-server|route|subnet-zero|classless|route|global)(?=\\s)'
             'name': 'keyword.other.ip'
+          }
+          {
+            'include': '#access_list'
           }
           {
             'include': '#ip_address'
@@ -654,7 +663,7 @@
         'end': '^(!)'
         'patterns': [
           {
-            'match': '\\s(redirects|proxy-arp|channel-group|active|mls|qos|switchport|trunk|mode|vlan-id|bandwidth|ipv6|access-group|in|out|verify|unicast|source|destination|reachable-via|tx|rx|dead-interval|hello-interval|flow|policy|route-map|tunnel|tcp|adjust-mss|ingress|cost|allow-default|allow-self-ping|unreachables|lacp|fast-switchover|inside|outside|ip|vrf|forwarding|mtu|address|cdp|enable|encapsulation|speed|duplex|media-type|load-interval|nat|unnumbered|service-module|default-gateway|virtual-reassembly|crypto|map|service-policy|mpls|pim|ospf|rip|clns|negotiation|output|input|dsu|framing|cablelength|crc|clock|down-when-looped|peer|logging|event|trust|neighbor-route)(?=\\s)'
+            'match': '\\s(redirects|dce-terminal-timing-enable|mop|snmp|ppp|multilink|half-duplex|full-duplex|proxy-arp|channel-group|active|mls|qos|switchport|backup|preemption|delay|native|allowed|access|trunk|mode|vlan-id|bandwidth|ipv6|access-group|in|out|verify|unicast|source|destination|reachable-via|tx|rx|dead-interval|hello-interval|flow|policy|route-map|tunnel|tcp|rtp|adjust-mss|ingress|cost|allow-default|allow-self-ping|unreachables|lacp|fast-switchover|inside|outside|ip|vrf|forwarding|mtu|address|cdp|enable|encapsulation|speed|duplex|media-type|load-interval|nat|unnumbered|service-module|default-gateway|virtual-reassembly|crypto|map|service-policy|mpls|pim|ospf|rip|clns|negotiation|output|input|dsu|framing|cablelength|crc|clock|down-when-looped|peer|logging|event|trust|neighbor-route)(?=\\s)'
             'name': 'keyword.other.interface'
           }
           {
@@ -824,7 +833,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '(con|aux|vty|location|password|login|transport|input|output|privilege|level|access-class|exec|activation-character|stopbits|baud)\\s'
+            'match': '(con|aux|vty|length|accounting|authorization|authentication|commands|logging|location|exec-timeout|password|login|transport|input|output|privilege|level|access-class|exec|activation-character|stopbits|baud)\\s'
             'name': 'keyword.other.line'
           }
           {
@@ -848,11 +857,11 @@
           '1':
             'name': 'keyword.negative.cisco'
           '2':
-            'name': 'keyword.control.cisco'
+            'name': 'constant.language.cisco'
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(trap|facility|host|event|link-status|buffered|console)(?=\\s)'
+            'match': '\\s(trap|facility|host|event|link-status|source-interface|buffered|console)(?=\\s)'
             'name': 'keyword.other.logging'
             'comment': 'logging'
           }
@@ -890,7 +899,24 @@
         'patterns': [
           {
             'match': '\\s(flow|qos|nde|sender|version|ip|ipv6|freeze|interface-full|statistics-export interval|rate-limit|capture|acl|tcam|share-global|cef error|action)(?=\\s)'
-            'name': 'keyword.other.logging'
+            'name': 'keyword.other.mls'
+          }
+        ]
+      }
+    ]
+  'monitor':
+    'patterns': [
+      {
+        'begin': '^(monitor)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+        'end': '$'
+        'patterns': [
+          {
+            'match': '\\s(source|destination|lifetime|session)(?=\\s)'
+            'name': 'keyword.other.monitor'
+            'comment': 'monitor'
           }
         ]
       }
@@ -925,6 +951,25 @@
           {
             'match': '\\s(endpoint|bundle-name|authenticated)(?=\\s)'
             'name': 'keyword.other.logging'
+          }
+        ]
+      }
+    ]
+  'ntp':
+    'patterns': [
+      {
+        'begin': '^(no )?(ntp)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'keyword.negative.cisco'
+          '2':
+            'name': 'constant.language.cisco'
+        'end': '$'
+        'patterns': [
+          {
+            'match': '\\s(clock-period|update-calendar|peer|server|master)(?=\\s)'
+            'name': 'keyword.other.logging'
+            'comment': 'time server'
           }
         ]
       }
@@ -987,7 +1032,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '(match(-any|-all)?|rate|bps|conform-action|exceed-action|transmit|drop|shape|average|service-policy|access-group|class|bandwidth|priority|percent|police|set|ip|dscp|fair-queue|random-detect|dscp-based)\\s'
+            'match': '(match(-any|-all)?|rate|bps|queue-limit|conform-action|exceed-action|transmit|drop|shape|average|service-policy|access-group|class|bandwidth|priority|percent|police|set|ip|dscp|fair-queue|random-detect|dscp-based)\\s'
             'name': 'keyword.other.qos'
           }
           {
@@ -1082,7 +1127,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '\\s(bgp|ospf|isis|rip|eigrp|router-id|graceful-restart|restart-time|metric-type|subnets|stalepath-time|version|ipv4|ipv6|vpnv4|vrf|remote-as|update-source|neighbor|redistribute|auto-summary|activate|send-community|synchronization|log-neighbor-changes|net|area|network|log-adjacency-changes)(?=\\s)'
+            'match': '\\s(bgp|ospf|isis|rip|eigrp|router-id|password|prefix-list|route-map|soft-reconfiguration|ebgp-multihop|route-reflector-client|next-hop-self|default-originate|in|out|graceful-restart|nsf|default-information|originate|restart-time|metric-type|subnets|stalepath-time|version|ipv4|ipv6|vpnv4|mask|vrf|remote-as|update-source|neighbor|redistribute|auto-summary|activate|send-community|synchronization|log-neighbor-changes|net|area|network|log-adjacency-changes)(?=\\s)'
             'name': 'keyword.other.archive'
           }
           {
@@ -1160,7 +1205,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(community|trap-source|chassis-id|enable|traps|host)(?=\\s)'
+            'match': '\\s(community|trap-source|chassis-id|ifindex|enable|traps|host)(?=\\s)'
             'name': 'keyword.other.snmp'
           }
           {
