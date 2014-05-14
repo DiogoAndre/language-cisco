@@ -158,6 +158,9 @@
     'include': '#banner'
   }
   {
+    'include': '#banner-asa'
+  }
+  {
     'include': '#snmp'
   }
   {
@@ -268,13 +271,35 @@
   'banner':
     'patterns': [
       {
-        'begin': '^(banner motd)(.*)'
+        'begin': '^(banner motd \\^.*)'
         'beginCaptures':
           '1':
             'name': 'constant.language.cisco'
           '2':
             'name': 'comment.banner.cisco'
         'end': '^(\\^.*)'
+        'endCaptures':
+          '1':
+            'name': 'comment.banner.cisco'
+        'name': 'keyword.other.service'
+        'patterns': [
+          {
+            'match': '^.*$'
+            'name': 'comment.banner.cisco'
+          }
+        ]
+      }
+    ]
+  'banner-asa':
+    'patterns': [
+      {
+        'begin': '^(banner motd)(.[^\\^]*)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+          '2':
+            'name': 'comment.banner.cisco'
+        'end': '$'
         'endCaptures':
           '1':
             'name': 'comment.banner.cisco'
