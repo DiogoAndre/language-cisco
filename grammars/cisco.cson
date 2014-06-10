@@ -173,6 +173,9 @@
     'include': '#monitor'
   }
   {
+    'include': '#object-group'
+  }
+  {
     'include': '#ntp'
   }
   {
@@ -1465,6 +1468,48 @@
           {
             'match': '\\s(mode|transparent|server)(?=\\s)'
             'name': 'keyword.other.logging'
+          }
+        ]
+      }
+    ]
+  'object-group':
+    'patterns': [
+      {
+        'begin': '^(object-group)\\s(protocol|network|service|icmp-type)\\s(\\S*)\\s(\\w*|$)'
+        'captures':
+          '1':
+            'name': 'constant.character.interface.cisco'
+          '2':
+            'name': 'constant.character.interface.cisco'
+          '3':
+            'name': 'keyword.other.interface'
+          '4':
+            'name': 'constant.character.interface.cisco'
+        'end': '^(?=\\w|!)'
+        'patterns': [
+          {
+            'include': '#description'
+          }
+          {
+            'match': '\\s(network-object|port-object|protocol-object|icmp-object|service-object)(?=\\s)'
+            'name': 'keyword.other.interface'
+          }
+          {
+            'match': '\\s(host|eq|range|tcp|udp)(?=\\s)'
+            'name': 'string.regexp.cisco'
+          }
+          {
+            'match': '\\s(\\d*|\\w*)(?=\\s)'
+            'name': 'constant.numeric.cisco'
+          }
+          {
+            'include': '#ipv6_address'
+          }
+          {
+            'include': '#ip_address'
+          }
+          {
+            'include': '#subnet_mask'
           }
         ]
       }
