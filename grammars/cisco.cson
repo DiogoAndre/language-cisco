@@ -155,10 +155,19 @@
     'include': '#access_list'
   }
   {
-    'include': '#banner'
+    'include': '#banner-motd'
   }
   {
     'include': '#banner-asa'
+  }
+  {
+    'include':'#banner-login'
+  }
+  {
+    'include':'#banner-exec'
+  }
+  {
+    'include':'#banner-timeout'
   }
   {
     'include': '#snmp'
@@ -271,7 +280,7 @@
         ]
       }
     ]
-  'banner':
+  'banner-motd':
     'patterns': [
       {
         'begin': '^(banner motd \\^.*)'
@@ -280,7 +289,73 @@
             'name': 'constant.language.cisco'
           '2':
             'name': 'comment.banner.cisco'
-        'end': '^(\\^.*)'
+        'end': '^(.*\\^)'
+        'endCaptures':
+          '1':
+            'name': 'comment.banner.cisco'
+        'name': 'keyword.other.service'
+        'patterns': [
+          {
+            'match': '^.*$'
+            'name': 'comment.banner.cisco'
+          }
+        ]
+      }
+    ]
+  'banner-login':
+    'patterns': [
+      {
+        'begin': '^(banner login \\^.*)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+          '2':
+            'name': 'comment.banner.cisco'
+        'end': '^(.*\\^)'
+        'endCaptures':
+          '1':
+            'name': 'comment.banner.cisco'
+        'name': 'keyword.other.service'
+        'patterns': [
+          {
+            'match': '^.*$'
+            'name': 'comment.banner.cisco'
+          }
+        ]
+      }
+    ]
+  'banner-exec':
+    'patterns': [
+      {
+        'begin': '^(banner exec \\^.*)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+          '2':
+            'name': 'comment.banner.cisco'
+        'end': '^(.*\\^)'
+        'endCaptures':
+          '1':
+            'name': 'comment.banner.cisco'
+        'name': 'keyword.other.service'
+        'patterns': [
+          {
+            'match': '^.*$'
+            'name': 'comment.banner.cisco'
+          }
+        ]
+      }
+    ]
+  'banner-timeout':
+    'patterns': [
+      {
+        'begin': '^(banner prompt-timeout \\^.*)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+          '2':
+            'name': 'comment.banner.cisco'
+        'end': '^(.*\\^)'
         'endCaptures':
           '1':
             'name': 'comment.banner.cisco'
