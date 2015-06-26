@@ -179,6 +179,9 @@
     'include': '#ntp'
   }
   {
+    'include': '#radius_server'
+  }
+  {
     'match': '^!.*$'
     'name': 'comment.line.bang.cisco'
     'comment': 'comments are usually made with a bang'
@@ -1002,6 +1005,29 @@
         ]
       }
     ]
+  'radius_server':
+    'patterns': [
+      {
+        'begin': '^(radius server)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+        'end': '^(!)'
+        'patterns': [
+          {
+            'match': '\\s(address|timeout|key|auth-port|acct-port)(?=\\s)'
+            'name': 'keyword.other.logging'
+            'comment': 'radius server'
+          }
+          {
+            'include': '#ipv6_address'
+          }
+          {
+            'include': '#ip_address'
+          }
+        ]
+      }
+    ]
   'prefix_list':
     'patterns': [
       {
@@ -1233,7 +1259,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(community|trap-source|chassis-id|ifindex|enable|traps|host)(?=\\s)'
+            'match': '\\s(community|location|contact|trap-source|chassis-id|ifindex|enable|traps|host)(?=\\s)'
             'name': 'keyword.other.snmp'
           }
           {
