@@ -179,6 +179,9 @@
     'include': '#ntp'
   }
   {
+    'include': '#radius_server'
+  }
+  {
     'match': '^!.*$'
     'name': 'comment.line.bang.cisco'
     'comment': 'comments are usually made with a bang'
@@ -1002,6 +1005,29 @@
         ]
       }
     ]
+  'radius_server':
+    'patterns': [
+      {
+        'begin': '^(radius server)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+        'end': '^(!)'
+        'patterns': [
+          {
+            'match': '\\s(address|timeout|key|auth-port|acct-port)(?=\\s)'
+            'name': 'keyword.other.logging'
+            'comment': 'radius server'
+          }
+          {
+            'include': '#ipv6_address'
+          }
+          {
+            'include': '#ip_address'
+          }
+        ]
+      }
+    ]
   'prefix_list':
     'patterns': [
       {
@@ -1155,7 +1181,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '\\s(bgp|ospf|isis|rip|eigrp|router-id|password|prefix-list|route-map|soft-reconfiguration|ebgp-multihop|route-reflector-client|next-hop-self|default-originate|in|out|graceful-restart|nsf|default-information|originate|restart-time|metric-type|subnets|stalepath-time|version|ipv4|ipv6|vpnv4|mask|vrf|remote-as|update-source|neighbor|redistribute|auto-summary|activate|send-community|synchronization|log-neighbor-changes|net|area|network|log-adjacency-changes)(?=\\s)'
+            'match': '\\s(bgp|ospf|isis|rip|eigrp|router-id|password|prefix-list|route-map|soft-reconfiguration|ebgp-multihop|route-reflector-client|next-hop-self|default-originate|in|out|graceful-restart|nsf|default-information|originate|restart-time|metric-type|subnets|stalepath-time|version|ipv4|ipv6|vpnv4|mask|vrf|remote-as|update-source|neighbor|redistribute|auto-summary|activate|send-community|synchronization|log-neighbor-changes|net|area|network|log-adjacency-changes|peer-group|timers)(?=\\s)'
             'name': 'keyword.other.archive'
           }
           {
@@ -1233,7 +1259,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(community|trap-source|chassis-id|ifindex|enable|traps|host)(?=\\s)'
+            'match': '\\s(community|location|contact|trap-source|chassis-id|ifindex|enable|traps|host)(?=\\s)'
             'name': 'keyword.other.snmp'
           }
           {
