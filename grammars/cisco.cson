@@ -1155,7 +1155,7 @@
             'name': 'comment.documentation.cisco'
         'patterns': [
           {
-            'match': '\\s(bgp|ospf|isis|rip|eigrp|router-id|password|prefix-list|route-map|soft-reconfiguration|ebgp-multihop|route-reflector-client|next-hop-self|default-originate|in|out|graceful-restart|nsf|default-information|originate|restart-time|metric-type|subnets|stalepath-time|version|ipv4|ipv6|vpnv4|mask|vrf|remote-as|update-source|neighbor|redistribute|auto-summary|activate|send-community|synchronization|log-neighbor-changes|net|area|network|log-adjacency-changes)(?=\\s)'
+            'match': '\\s(bgp|ospf|isis|rip|eigrp|router-id|password|prefix-list|route-map|soft-reconfiguration|ebgp-multihop|route-reflector-client|next-hop-self|default-originate|in|out|graceful-restart|nsf|default-information|originate|restart-time|metric-type|subnets|stalepath-time|version|ipv4|ipv6|vpnv4|mask|vrf|remote-as|update-source|neighbor|redistribute|auto-summary|activate|send-community|synchronization|log-neighbor-changes|net|area|network|log-adjacency-changes|peer-group|timers)(?=\\s)'
             'name': 'keyword.other.archive'
           }
           {
