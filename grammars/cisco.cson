@@ -65,6 +65,9 @@
     'include': '#prefix_list'
   }
   {
+    'include': '#community_list'
+  }
+  {
     'include': '#ip_vrf'
   }
   {
@@ -857,6 +860,13 @@
         'name': 'constant.numeric.cisco'
       }
     ]
+  'community':
+    'patterns': [
+      {
+        'match': '\\b(\\d+:\\d+)\\b'
+        'name': 'constant.numeric.cisco'
+      }
+    ]
   'line':
     'patterns': [
       {
@@ -1102,6 +1112,30 @@
           }
           {
             'include': '#description'
+          }
+        ]
+      }
+    ]
+  'community_list':
+    'patterns': [
+      {
+        'begin': '^(ip)\\s(community-list)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+          '2':
+            'name': 'keyword.other.community'
+        'end': '$'
+        'patterns': [
+          {
+            'match': '(permit|deny|seq)\\s'
+            'name': 'keyword.other.prefix'
+          }
+          {
+            'include': '#description'
+          }
+          {
+            'include': '#community'
           }
         ]
       }
