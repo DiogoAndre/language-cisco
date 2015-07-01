@@ -65,6 +65,9 @@
     'include': '#prefix_list'
   }
   {
+    'include': '#community_list'
+  }
+  {
     'include': '#ip_vrf'
   }
   {
@@ -182,6 +185,12 @@
     'include': '#radius_server'
   }
   {
+    'include': '#vpdn'
+  }
+  {
+    'include': '#vpdn_group'
+  }
+  {
     'match': '^!.*$'
     'name': 'comment.line.bang.cisco'
     'comment': 'comments are usually made with a bang'
@@ -224,7 +233,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '(new-model|authentication|authorization|accounting|login|exec|commands|group|local|session-id)\\s'
+            'match': '(new-model|authentication|authorization|accounting|login|exec|commands|group|local|session-id|server|policy)\\s'
             'name': 'keyword.other.aaa'
           }
         ]
@@ -694,7 +703,7 @@
         'end': '^(!)'
         'patterns': [
           {
-            'match': '\\s(redirects|dce-terminal-timing-enable|mop|snmp|ppp|multilink|half-duplex|full-duplex|proxy-arp|channel-group|active|mls|qos|switchport|backup|preemption|delay|native|allowed|access|trunk|mode|vlan-id|bandwidth|ipv6|access-group|in|out|verify|unicast|source|destination|reachable-via|tx|rx|dead-interval|hello-interval|flow|policy|route-map|tunnel|tcp|rtp|adjust-mss|ingress|cost|allow-default|allow-self-ping|unreachables|lacp|fast-switchover|inside|outside|ip|vrf|forwarding|mtu|address|cdp|enable|encapsulation|speed|duplex|media-type|load-interval|nat|unnumbered|service-module|default-gateway|virtual-reassembly|crypto|map|service-policy|mpls|pim|ospf|rip|clns|negotiation|output|input|dsu|framing|cablelength|crc|clock|down-when-looped|peer|logging|event|trust|neighbor-route)(?=\\s)'
+            'match': '\\s(redirects|dce-terminal-timing-enable|mop|snmp|ppp|multilink|half-duplex|full-duplex|proxy-arp|channel-group|active|mls|qos|switchport|backup|preemption|delay|native|allowed|access|trunk|mode|vlan-id|bandwidth|ipv6|access-group|in|out|verify|unicast|source|destination|reachable-via|tx|rx|dead-interval|hello-interval|flow|policy|route-map|tunnel|tcp|rtp|adjust-mss|ingress|cost|allow-default|allow-self-ping|unreachables|lacp|fast-switchover|inside|outside|ip|vrf|forwarding|mtu|address|cdp|enable|encapsulation|speed|duplex|media-type|load-interval|nat|unnumbered|service-module|default-gateway|virtual-reassembly|crypto|map|service-policy|mpls|pim|ospf|rip|clns|negotiation|output|input|dsu|framing|cablelength|crc|clock|down-when-looped|peer|logging|event|trust|neighbor-route|keepalive)(?=\\s)'
             'name': 'keyword.other.interface'
           }
           {
@@ -851,6 +860,13 @@
         'name': 'constant.numeric.cisco'
       }
     ]
+  'community':
+    'patterns': [
+      {
+        'match': '\\b(\\d+:\\d+)\\b'
+        'name': 'constant.numeric.cisco'
+      }
+    ]
   'line':
     'patterns': [
       {
@@ -998,7 +1014,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(clock-period|update-calendar|peer|server|master)(?=\\s)'
+            'match': '\\s(clock-period|update-calendar|peer|server|master|source)(?=\\s)'
             'name': 'keyword.other.logging'
             'comment': 'time server'
           }
@@ -1028,6 +1044,51 @@
         ]
       }
     ]
+  'vpdn':
+    'patterns': [
+      {
+        'begin': '^(no )?(vpdn)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'keyword.negative.cisco'
+          '2':
+            'name': 'constant.language.cisco'
+        'end': '$'
+        'patterns': [
+          {
+            'match': '\\s(enable|multihop|source-ip|logging|search-order|domain-delimiter)(?=\\s)'
+            'name': 'keyword.other.logging'
+            'comment': 'vpdn'
+          }
+        ]
+      }
+    ]
+  'vpdn_group':
+    'patterns': [
+      {
+        'begin': '^(vpdn-group)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+        'end': '^(!)'
+        'patterns': [
+          {
+            'match': '\\s(accept-dialin|session-limit|source-ip|local name|vpn|lcp|l2tp|ip)(?=\\s)'
+            'name': 'keyword.other.logging'
+            'comment': 'radius server'
+          }
+          {
+            'include': '#ipv6_address'
+          }
+          {
+            'include': '#ip_address'
+          }
+          {
+            'include': '#description'
+          }
+        ]
+      }
+    ]
   'prefix_list':
     'patterns': [
       {
@@ -1051,6 +1112,30 @@
           }
           {
             'include': '#description'
+          }
+        ]
+      }
+    ]
+  'community_list':
+    'patterns': [
+      {
+        'begin': '^(ip)\\s(community-list)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+          '2':
+            'name': 'keyword.other.community'
+        'end': '$'
+        'patterns': [
+          {
+            'match': '(permit|deny|seq)\\s'
+            'name': 'keyword.other.prefix'
+          }
+          {
+            'include': '#description'
+          }
+          {
+            'include': '#community'
           }
         ]
       }
