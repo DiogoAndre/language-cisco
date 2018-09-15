@@ -146,6 +146,12 @@
     'include': '#crypto_ipsec'
   }
   {
+    'include': '#crypto_ca'
+  }
+  {
+    'include': '#certificate'
+  }
+  {
     'include': '#crypto_dynmap'
   }
   {
@@ -251,15 +257,27 @@
   'access_list':
     'patterns': [
       {
-        'begin': '(access-list)(?=\\s)'
+        'begin': '^(access-list)(?=\\s)'
         'beginCaptures':
           '1':
             'name': 'constant.language.cisco'
-        'end': '$'
+        'end': '($)'
         'patterns': [
           {
-            'match': '(compiled|permit|deny|udp|tcp|icmp|ip|eq|any|range|host)\\s'
+            'match': '(extended|compiled|udp|tcp|icmp|ip|eq|range|host)\\s'
             'name': 'keyword.other.acl'
+          }
+          {
+            'match': '(permit)\\s'
+            'name': 'string'
+          }
+          {
+            'match': '(deny)\\s'
+            'name': 'entity.other.inherited-class'
+          }
+          {
+            'match': '(any)'
+            'name': 'entity.other.inherited-class'
           }
           {
             'include': '#ipv6_address'
@@ -499,7 +517,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(security-association|lifetime|seconds|transform-set)(?=\\s)'
+            'match': '\\s(client|ezvpn|ezvpnclient|security-association|lifetime|seconds|transform-set)(?=\\s)'
             'name': 'keyword.other.crypto'
           }
           {
@@ -507,6 +525,52 @@
           }
           {
             'include': '#ip_address'
+          }
+        ]
+      }
+    ]
+  'crypto_ca':
+    'patterns': [
+      {
+        'begin': '^(crypto ca)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+        'end': '($)'
+        'endCaptures':
+          '1':
+            'name': 'comment.documentation.cisco'
+        'patterns': [
+          {
+            'match': '\\s(certificate|trustpoint|chain)(?=\\s)'
+            'name': 'keyword.other.crypto'
+          }
+          {
+            'match': '\\s(.*)(?=\\s)'
+            'name': 'string'
+          }
+        ]
+      }
+    ]
+  'certificate':
+    'patterns': [
+      {
+        'begin': '^\\s(certificate)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+        'end': '.*(quit)'
+        'endCaptures':
+          '1':
+            'name': 'comment.documentation.cisco'
+        'patterns': [
+          {
+            'match': '\\s(ca)(?=\\s)'
+            'name': 'keyword.other.crypto'
+          }
+          {
+            'match': '\\s(.*)(?=\\s)'
+            'name': 'string'
           }
         ]
       }
@@ -521,7 +585,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(local-address|client|authentication|configuration|isakmp|authorization|ipsec-isakmp|dynamic|address|list|match)(?=\\s)'
+            'match': '\\s(static-map|local-address|client|authentication|configuration|isakmp|authorization|ipsec-isakmp|dynamic|address|list|match)(?=\\s)'
             'name': 'keyword.other.crypto'
           }
           {
@@ -564,9 +628,27 @@
   'description':
     'patterns': [
       {
-        'match': '\\s(description|!|remark)\\s.*$'
-        'name': 'comment.documentation.cisco'
+        'begin': '^(description|!|remark)(?=\\s)'
+        'beginCaptures':
+          '1':
+            'name': 'comment.documentation.cisco'
+        'end': '$'
+        'patterns': [
+          {
+            'match': '(.*)'
+            'name': 'comment.documentation.cisco'
+          }
+        ]
       }
+      # {
+      #   'begin': '^(description|!|remark)(?=\\s)'
+      #   'beginCaptures':
+      #     '1':
+      #       'name': 'constant.language.cisco'
+      #   'end': '$'
+      #   'match': '.*'
+      #   'name': 'comment.documentation.cisco'
+      # }
     ]
   'dhcp_pool':
     'patterns': [
@@ -799,6 +881,12 @@
           {
             'include': '#description'
           }
+          {
+            'include': '#crypto_ipsec'
+          }
+          {
+            'include': '#crypto_map'
+          }
         ]
       }
     ]
@@ -821,12 +909,16 @@
         'end': '^(?=\\w)'
         'patterns': [
           {
-            'match': '\\s(permit|deny|udp|tcp|ip|eq|any|range|host|access-list|extended|standard)(?=\\s)'
+            'match': '\\s(udp|tcp|ip|eq|any|range|host|access-list|extended|standard)(?=\\s)'
             'name': 'keyword.other.acl'
           }
           {
-            'match': '^ip'
-            'name': 'constant.language.cisco'
+            'match': '(permit)\\s'
+            'name': 'string'
+          }
+          {
+            'match': '(deny)\\s'
+            'name': 'entity.other.inherited-class'
           }
           {
             'include': '#ip_address'
