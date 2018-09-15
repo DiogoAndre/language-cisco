@@ -1,0 +1,130 @@
+domain-name cisco.com
+!
+interface outside
+ nameif outside
+ security-level 0
+ ip address 172.16.1.2 255.255.255.0
+!
+interface CA
+ nameif CA
+ security-level 50
+ ip address 192.168.0.1 255.255.255.0
+!
+! acl which defines crypto domains, must be mirror images on both peers
+!
+access-list cryacl extended permit ip 192.168.0.0 255.255.255.0 172.16.2.0 255.255.255.0
+access-list cryacl extended deny ip 192.168.0.0 255.255.255.0 172.16.4.0 255.255.255.0
+pager lines 24
+logging console debugging
+mtu outside 1500
+mtu CA 1500
+mtu backbone 1500
+route outside 172.16.2.0 255.255.255.0 172.16.1.1 1
+route CA 192.168.254.254 255.255.255.255 192.168.0.254 1
+crypto ipsec ikev2 ipsec-proposal AES256
+ protocol esp encryption aes-256
+ protocol esp integrity sha-1 md5
+crypto ipsec ikev2 ipsec-proposal DES
+ protocol esp encryption des
+ protocol esp integrity sha-1 md5
+crypto ipsec security-association pmtu-aging infinite
+crypto map outside-map 1 match address cryacl
+crypto map outside-map 1 set pfs
+crypto map outside-map 1 set peer 172.16.1.1
+crypto map outside-map 1 set ikev2 ipsec-proposal DES AES256
+crypto map outside-map 1 set trustpoint ios-ca chain
+crypto map outside-map interface outside
+crypto ca trustpoint ios-ca
+ enrollment url http://192.168.254.254:80
+ fqdn asa.cisco.com
+ keypair ios-ca
+ crl configure
+crypto ca certificate chain ios-ca
+ certificate ca 01
+    3082020f 30820178 a0030201 02020101 300d0609 2a864886 f70d0101 04050030
+    1b311930 17060355 04031310 696f732d 63612e63 6973636f 2e636f6d 301e170d
+    31333131 31353231 33353533 5a170d31 33313231 35323133 3535335a 301b3119
+    30170603 55040313 10696f73 2d63612e 63697363 6f2e636f 6d30819f 300d0609
+    2a864886 f70d0101 01050003 818d0030 81890281 81009ebb 48957c44 c940236f
+    a1cda758 aa930e8c 91390734 b8ef814d 0bf7aec9 7ec40379 7749d3c6 154f6a32
+    00738655 33b20207 037a9e15 3229fa72 478424fb 409f518d b13d328d e761be08
+    8023b4ff f410054b 4423156d 66c99788 69ab5956 966d5e1b 4d1c1120 a05ad08c
+    f036a134 3b2fc425 e4a2524f 36e0a129 2c8f6cee 971d0203 010001a3 63306130
+    0f060355 1d130101 ff040530 030101ff 300e0603 551d0f01 01ff0404 03020186
+    301f0603 551d2304 18301680 14082896 b9f4af20 75514321 d072f161 d09d2ec8
+    aa301d06 03551d0e 04160414 082896b9 f4af2075 514321d0 72f161d0 9d2ec8aa
+    300d0609 2a864886 f70d0101 04050003 81810087 a06d354a f7423e0e 64a7c5ec
+    6006fbde 914d7bfd f86ada50 b1a00d17 0bf06ec1 5423d514 fbeb0a76 986eb63f
+    f7fce99a 81c4b112 61fd69ce a2ce750e b1b3a6f9 84e92490 8f213613 451dd9a8
+    3fc3406a 854b20ed 27e4ddd8 62f6dea5 dd8b4396 1879b3e7 651cb9d1 3dd46b8b
+    32796963 9f6854f1 389f0060 aa0d1b8d f83e09
+  quit
+ certificate 08
+    3082028e 308201f7 a0030201 02020108 300d0609 2a864886 f70d0101 04050030
+    1b311930 17060355 04031310 696f732d 63612e63 6973636f 2e636f6d 301e170d
+    31333131 31383136 31383130 5a170d31 33313132 38313631 3831305a 301e311c
+    301a0609 2a864886 f70d0109 02160d61 73612e63 6973636f 2e636f6d 30819f30
+    0d06092a 864886f7 0d010101 05000381 8d003081 89028181 00c38ee5 75215237
+    2728cffd 3519cd15 ebcaab2c 48d63b92 7562d2fc f7db60bc ecb03b2c 4e4dff07
+    47ad5122 80899055 37f346d7 d10962e9 1e5edb06 8985ee7e 8a6da977 2460f82e
+    53679457 ed10372a 9ff2946e 449214e4 9be95cab 51d7681c 2db0382b 048fe807
+    1d1bb9b0 e4bd9de6 c99cafea c279e943 1e1f5d1b d1e6010c b7020301 0001a381
+    de3081db 30310603 551d2504 2a302806 082b0601 05050703 0106082b 06010505
+    07030506 082b0601 05050703 0606082b 06010505 07030730 3c060355 1d1f0435
+    30333031 a02fa02d 862b6874 74703a2f 2f313932 2e313638 2e323534 2e323534
+    2f696f73 2d636163 64702e69 6f732d63 612e6372 6c301806 03551d11 0411300f
+    820d6173 612e6369 73636f2e 636f6d30 0e060355 1d0f0101 ff040403 0205a030
+    1f060355 1d230418 30168014 082896b9 f4af2075 514321d0 72f161d0 9d2ec8aa
+    301d0603 551d0e04 1604145b 76de9ef0 d3255efe f4bc551b 69cd8398 d1596c30
+    0d06092a 864886f7 0d010104 05000381 81003fb0 ec7719cd 4f6162b2 90727db4
+    da5606f2 61441dc6 094fb3a6 defe62ef 5ff8f140 3bc3448c e0b42d26 07647607
+    fd7518cb 034139d3 e3648fd2 9d93b5e4 db3b828b 16d50dd5 3e18cdd6 74855de4
+    88a159d6 6ef51718 cf6cc4e4 53c2aca3 36442ff0 bb4b8493 22f0e632 a8b32b36
+    f287801f 8d47637f e4e9ee6a b4555094 c092
+  quit
+!
+! manually select the ISAKMP identity to use address on the ASA
+crypto isakmp identity address
+crypto ikev2 policy 1
+ encryption aes-256
+ integrity sha
+ group 14 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 10
+ encryption aes-192
+ integrity sha256 sha
+ group 14 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 policy 30
+ encryption 3des
+ integrity sha
+ group 5 2
+ prf sha
+ lifetime seconds 86400
+crypto ikev2 enable outside
+!
+! to allow pings from the CA interface that will bring up the tunnel during
+    testing.
+!
+management-access CA
+!
+group-policy GroupPolicy2 internal
+group-policy GroupPolicy2 attributes
+ vpn-idle-timeout 30
+ vpn-tunnel-protocol ikev1 ikev2
+tunnel-group 172.16.1.1 type ipsec-l2l
+tunnel-group 172.16.1.1 general-attributes
+ default-group-policy GroupPolicy2
+tunnel-group 172.16.1.1 ipsec-attributes
+!
+! disable peer-id validation
+!
+ peer-id-validate nocheck
+ ikev2 remote-authentication certificate
+ ikev2 local-authentication certificate ios-ca
+: end
+! NTP configuration
+ntp trusted-key 1
+ntp server 192.168.254.254
