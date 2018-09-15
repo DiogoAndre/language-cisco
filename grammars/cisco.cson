@@ -286,6 +286,9 @@
             'include': '#ip_address'
           }
           {
+            'include': '#subnet_mask'
+          }
+          {
             'include': '#description'
           }
         ]
@@ -1594,14 +1597,14 @@
   'username':
     'patterns': [
       {
-        'begin': '^(username)\\s'
+        'begin': '^(username|user)\\s'
         'beginCaptures':
           '1':
             'name': 'constant.language.cisco'
         'end': '$'
         'patterns': [
           {
-            'match': '(secret|privilege)\\s'
+            'match': '(secret|privilege|password)\\s'
             'name': 'keyword.other.clock'
           }
         ]
