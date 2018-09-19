@@ -7,6 +7,10 @@ or debugs.
 
 ![screenshot](https://raw.github.com/DiogoAndre/language-cisco/master/cisco.png)
 
+## Install
+
+Run `apm install language-cisco`
+
 ## Supported Filetypes
 
 * .cisco
