@@ -134,6 +134,9 @@
     'include': '#wildcard_mask'
   }
   {
+    'include': '#crypto_ike_policy'
+  }
+  {
     'include': '#crypto_ike'
   }
   {
@@ -257,19 +260,29 @@
   'access_list':
     'patterns': [
       {
-        'begin': '^(access-list)(?=\\s)'
+        'begin': '^(access-list) (\\w*)'
         'beginCaptures':
           '1':
             'name': 'constant.language.cisco'
+          '2':
+            'name': 'constant.numeric.cisco'
         'end': '($)'
         'patterns': [
           {
-            'match': '(extended|compiled|udp|tcp|icmp|ip|eq|range|host)\\s'
+            'match': '(extended|compiled|udp|esp|tcp|icmp|ip|eq|range)\\s'
             'name': 'keyword.other.acl'
           }
           {
             'match': '(permit)\\s'
             'name': 'string'
+          }
+          {
+            'match': '(host) (\\S*)'
+            captures:
+              1:
+                'name': 'keyword.other.acl'
+              2:
+                'name': 'constant.numeric.cisco'
           }
           {
             'match': '(deny)\\s'
@@ -489,13 +502,15 @@
         'beginCaptures':
           '1':
             'name': 'constant.language.cisco'
-        'end': '^(!)'
+        'end': '($)'
         'endCaptures':
           '1':
             'name': 'comment.documentation.cisco'
+          '2':
+            'name': 'constant.language.cisco'
         'patterns': [
           {
-            'match': '\\s(encr|authentication|group|lifetime|policy|dns|key|pool|acl|domain|configuration|client|group)(?=\\s)'
+            'match': '\\s(encr|encryption|hash|authentication|group|lifetime|policy|dns|key|pool|acl|domain|configuration|client|group)(?=\\s)'
             'name': 'keyword.other.crypto'
           }
           {
@@ -506,6 +521,43 @@
           }
           {
             'include': '#description'
+          }
+        ]
+      }
+    ]
+  'crypto_ike_policy':
+    'patterns': [
+      {
+        'begin': '^(crypto isakmp policy|crypto ikev2 policy) (\\d*)$'
+        'beginCaptures':
+          '1':
+            'name': 'constant.language.cisco'
+          '2':
+            'name': 'constant.numeric.cisco'
+        'end': '(^!|^exit)|(crypto isakmp)|(crypto ikev2 policy)'
+        'endCaptures':
+          1:
+            name: 'comment.documentation.cisco'
+          2:
+            name: 'constant.language.cisco'
+          3:
+            name: 'constant.language.cisco'
+        'patterns': [
+          {
+            'match': '(encr|prf|integrity|encryption|hash|authentication|group|lifetime|policy|dns|key|pool|acl|domain|configuration|client|group)(?=\\s)'
+            'name': 'keyword.other.crypto'
+          }
+          {
+            include: '#disable'
+          }
+          {
+            include: '#numeric'
+          }
+          {
+            include: '#ip_address'
+          }
+          {
+            include: '#description'
           }
         ]
       }
@@ -643,15 +695,6 @@
           }
         ]
       }
-      # {
-      #   'begin': '^(description|!|remark)(?=\\s)'
-      #   'beginCaptures':
-      #     '1':
-      #       'name': 'constant.language.cisco'
-      #   'end': '$'
-      #   'match': '.*'
-      #   'name': 'comment.documentation.cisco'
-      # }
     ]
   'dhcp_pool':
     'patterns': [
@@ -708,7 +751,14 @@
     'patterns': [
       {
         'match': '\\b(no(?=\\s)|shutdown)'
-        'name': 'keyword.negative.cisco'
+        'name': 'entity.other.inherited-class'
+      }
+    ]
+  'numeric':
+    'patterns': [
+      {
+        'match': '(\\d+\\s)'
+        'name': 'constant.numeric.cisco'
       }
     ]
   'enable':
@@ -856,7 +906,7 @@
   'interface':
     'patterns': [
       {
-        'begin': '^(interface)(?=\\s)(.*)'
+        'begin': '^(interface)(?=\\s)(.*)$'
         'beginCaptures':
           '1':
             'name': 'constant.language.cisco'
@@ -865,7 +915,7 @@
         'end': '^(!)'
         'patterns': [
           {
-            'match': '\\s(redirects|dce-terminal-timing-enable|mop|snmp|ppp|multilink|half-duplex|full-duplex|proxy-arp|channel-group|active|mls|qos|switchport|backup|preemption|delay|native|allowed|access|trunk|mode|vlan-id|bandwidth|ipv6|access-group|in|out|verify|unicast|source|destination|reachable-via|tx|rx|dead-interval|hello-interval|flow|policy|route-map|tunnel|tcp|rtp|adjust-mss|ingress|cost|allow-default|allow-self-ping|unreachables|lacp|fast-switchover|inside|outside|ip|vrf|forwarding|mtu|address|cdp|enable|encapsulation|speed|duplex|media-type|load-interval|nat|unnumbered|service-module|default-gateway|virtual-reassembly|crypto|map|service-policy|mpls|pim|ospf|rip|clns|negotiation|output|input|dsu|framing|cablelength|crc|clock|down-when-looped|peer|logging|event|trust|neighbor-route|keepalive)(?=\\s)'
+            'match': '(redirects|bridge-group|dce-terminal-timing-enable|mop|snmp|ppp|multilink|half-duplex|full-duplex|proxy-arp|channel-group|active|mls|qos|switchport|backup|preemption|delay|native|allowed|access|trunk|mode|vlan-id|bandwidth|ipv6|access-group|in|out|verify|unicast|source|destination|reachable-via|tx|rx|dead-interval|hello-interval|flow|policy|route-map|tunnel|tcp|rtp|adjust-mss|ingress|cost|allow-default|allow-self-ping|unreachables|lacp|fast-switchover|inside|outside|ip|vrf|forwarding|mtu|address|cdp|enable|encapsulation|speed|duplex|media-type|load-interval|nat|unnumbered|service-module|default-gateway|virtual-reassembly|crypto|map|service-policy|mpls|pim|ospf|rip|clns|negotiation|output|input|dsu|framing|cablelength|crc|clock|down-when-looped|peer|logging|event|trust|neighbor-route|keepalive)(?=\\s)'
             'name': 'keyword.other.interface'
           }
           {
