@@ -5,7 +5,7 @@ This package adds syntax highlighting to Cisco configuration files in Atom.
 Currently focused on Cisco IOS configuration files, rather than command outputs
 or debugs.
 
-![screenshot](https://raw.github.com/DiogoAndre/language-cisco/master/cisco.png)
+![screenshot](https://raw.github.com/DiogoAndre/language-cisco/master/cisco2.png)
 
 ## Install
 
