@@ -1,0 +1,55 @@
+version 12.3
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname IOSandASASittingUnderATree
+!
+! --------------------------------------------------------------------------------
+! Outbund ACLs
+!
+! Access lists are configured to permit creation of tunnels and to send applicable traffic over them.
+!
+! --------------------------------------------------------------------------------
+!
+access-list outside_access_in extended permit ip host AWS_ENDPOINT_1 host YOUR_UPLINK_ADDRESS
+access-list outside_access_in extended permit ip host AWS_ENDPOINT_2 host YOUR_UPLINK_ADDRESS
+access-list outside_access_in extended deny ip host AWS_ENDPOINT_2 host YOUR_UPLINK_ADDRESS
+!
+access-list cryacl extended permit ip 192.168.0.0 255.255.255.0 172.16.2.0 255.255.255.0
+access-list cryacl extended deny ip 192.168.0.0 255.255.255.0 172.16.4.0 255.255.255.0
+!
+crypto isakmp policy 201
+  encryption aes
+  authentication pre-share
+  group 2
+  lifetime 28800
+  hash sha
+exit
+!
+! Some DHCP config
+!
+ip dhcp excluded-address 10.0.1.1 10.0.1.10
+ip dhcp excluded-address 10.0.2.1 10.0.2.10
+ip dhcp excluded-address 10.0.3.1 10.0.3.10
+!
+ip dhcp pool vlan1
+network 10.0.1.0 255.255.255.0
+default-router 10.0.1.1
+!
+ip dhcp pool vlan2
+network 10.0.2.0 255.255.255.0
+default-router 10.0.2.1
+!
+ip dhcp pool vlan3
+network 10.0.3.0 255.255.255.0
+default-router 10.0.3.1
+!
+interface FastEthernet0
+ip address 192.1.12.2 255.255.255.0
+no ip directed-broadcast (default)
+ip nat outside
+ip access-group 103 in
+no cdp enable
+!
