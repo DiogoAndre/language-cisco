@@ -1817,7 +1817,7 @@
         'end': '$'
         'patterns': [
           {
-            'match': '\\s(mode|transparent|server)(?=\\s)'
+            'match': '\\s(mode|transparent|server|client|off|password|pruning|version|domain)(?=\\s)'
             'name': 'keyword.other.logging'
           }
         ]
